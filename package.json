@@ -1,0 +1,33 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "react-dev": "webpack -d --watch",
+    "react-prod": "webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micxye/weather.git"
+  },
+  "author": "mic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/micxye/weather/issues"
+  },
+  "homepage": "https://github.com/micxye/weather#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "jquery": "^3.3.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4"
+  }
+}
