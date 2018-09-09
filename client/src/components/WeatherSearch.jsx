@@ -41,6 +41,8 @@ export default class WeatherSearch extends React.Component {
 
     displayMatches() {
         const suggestions = document.querySelector('.citysuggestions');
+        const hideSuggestions = () => suggestions.classList.remove('show');
+
         if (this.state.input) suggestions.classList.add('show');
 
         const htmlSuggestions = this.state.suggestions.map(place => {
@@ -54,6 +56,7 @@ export default class WeatherSearch extends React.Component {
                 </li>
             `
         }).join('');
+        if (!htmlSuggestions) hideSuggestions();
         suggestions.innerHTML = htmlSuggestions;
 
         const context = this; // event handler
@@ -64,7 +67,6 @@ export default class WeatherSearch extends React.Component {
             context.props.getWeatherClick(coordinates);
         });
         // hide suggestions when clicking elsewhere
-        const hideSuggestions = () => suggestions.classList.remove('show');
         $('body').on('click', ':not(.citysuggestions, .citysuggestionitem, .cityname)', hideSuggestions);
     }
 

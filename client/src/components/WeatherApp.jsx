@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 import WeatherCurrent from './WeatherCurrent.jsx';
 import WeatherDefault from './WeatherDefault.jsx';
 import WeatherError from './WeatherError.jsx';
@@ -23,7 +24,6 @@ export default class WeatherApp extends React.Component {
         this.setState({ view: 'loading'});
         axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=b682b37f${hide}a17${key}e1`)
             .then(response => {
-                console.log(response.data);
                 this.setState({
                     view: 'weather',
                     scale: 'fahrenheit',
@@ -41,7 +41,7 @@ export default class WeatherApp extends React.Component {
             .catch(err => {
                 console.log(err);
                 this.setState({ view: 'error' })
-            }) // show error on client side
+            })
     }
 
     getWeatherClick(coordinates) {
@@ -82,6 +82,7 @@ export default class WeatherApp extends React.Component {
     }
 
     changeScale(scale){
+        $('.citysuggestions').removeClass('show');
         this.setState({ scale });
     }
 
@@ -96,18 +97,20 @@ export default class WeatherApp extends React.Component {
             return <WeatherLoading getWeatherClick={this.getWeatherClick} searchWeather={this.searchWeather} />
         }
         if (this.state.view === 'weather') {
-            return <WeatherCurrent 
-                     scale={this.state.scale}
-                     name={this.state.name}
-                     current={this.state.scale === 'fahrenheit' ? this.state.currentF : this.state.currentC}
-                     low={this.state.scale === 'fahrenheit' ? this.state.lowF : this.state.lowC}
-                     high={this.state.scale === 'fahrenheit' ? this.state.highF : this.state.highC}
-                     icon={this.state.icon}
-                     description={this.state.description}
-                     getWeatherClick={this.getWeatherClick}
-                     searchWeather={this.searchWeather}
-                     changeScale={this.changeScale}
-                   />
+            return (
+                <WeatherCurrent 
+                    scale={this.state.scale}
+                    name={this.state.name}
+                    current={this.state.scale === 'fahrenheit' ? this.state.currentF : this.state.currentC}
+                    low={this.state.scale === 'fahrenheit' ? this.state.lowF : this.state.lowC}
+                    high={this.state.scale === 'fahrenheit' ? this.state.highF : this.state.highC}
+                    icon={this.state.icon}
+                    description={this.state.description}
+                    getWeatherClick={this.getWeatherClick}
+                    searchWeather={this.searchWeather}
+                    changeScale={this.changeScale}
+                />
+            )
         }
     }
 }
