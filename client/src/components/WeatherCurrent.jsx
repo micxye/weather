@@ -1,52 +1,35 @@
 import React from 'react';
 import WeatherSearch from './WeatherSearch.jsx';
 
-export default class WeatherCurrent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            scale: 'fahrenheit',
-        }
+const WeatherCurrent = ({scale, name, current, low, high, icon, description, getWeatherClick, searchWeather, changeScale }) => {
+    let fahrenheit, celsius;
+    if (scale === "fahrenheit") {
+        fahrenheit = "fahrenheit mode";
+        celsius = "change celsius";
+    } else {
+        fahrenheit = "change fahrenheit";
+        celsius = "celsius mode";
     }
-
-    convertScale() {
-
-    }
-
-    displayScale(kelvinTemp) {
-        if (this.state.scale = 'fahrenheit') {
-            // convert to f
-        }
-        if (this.state.scale = 'celsius') {
-            // convert to f
-        }
-    }
-
-    render() {
-        return (
-            <div id="weather-app-container">
+    return (<div id="weather-app-container">
                 <div id="weather-display-container">
-                    <span id="city-name">{this.props.weather.name}</span>
+                    <div id="city-name">{name}</div>
                     <div id="weather-icon-temp-container">
-                        <img src={`http://openweathermap.org/img/w/${this.props.weather.weather[0].icon}.png`}></img>
-                        <div id="temp-container">
-                            <span id="current-temp">{this.props.weather.main.temp}</span>
-                            <span id="fahrenheit">˚F</span>
+                        <img src={`http://openweathermap.org/img/w/${icon}.png`}></img>
+                        <span id="current-temp">{current}</span>
+                        <div id="scale-container">
+                            <span className={fahrenheit} onClick={() => changeScale('fahrenheit') && $('.citysuggestions').removeClass('show')}>˚F</span>
                             <span id="divide">|</span>
-                            <span id="celsius">˚C</span>
+                            <span className={celsius} onClick={() => changeScale('celsius') && $('.citysuggestions').removeClass('show')}>˚C</span>
                         </div>
                     </div>
                     <div id="temp-high-low">
-                        <span id="temp-high">High: {this.props.weather.main.temp_max}</span>
-                        <span id="temp-low">low: {this.props.weather.main.temp_min}</span>
+                        <span id="temp-high">High: {high}˚</span>
+                        <span id="temp-low">low: {low}˚</span>
                     </div>
-                    <div id="description">
-                        {this.props.weather.weather[0].description}
-                    </div>
+                    <div id="description">{description}</div>
                 </div>
-                
-                <WeatherSearch getWeatherClick={this.props.getWeatherClick} searchWeather={this.props.searchWeather} />
-            </div>
-        )
-    }
+                <WeatherSearch getWeatherClick={getWeatherClick} searchWeather={searchWeather} />
+            </div>)
 }
+
+export default WeatherCurrent;

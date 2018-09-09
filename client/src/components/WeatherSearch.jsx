@@ -15,8 +15,9 @@ export default class WeatherSearch extends React.Component {
     componentDidMount() {
         $('#weathersearchform').submit(e => {
             e.preventDefault();
+            $('#weathersearch').val('').blur(); // unfocus input
             this.props.searchWeather(this.state.input);
-        }); // prevent enter submit, remove later for search
+        });
         this.getCities();
     }
     
@@ -40,9 +41,9 @@ export default class WeatherSearch extends React.Component {
 
     displayMatches() {
         const suggestions = document.querySelector('.citysuggestions');
-        suggestions.classList.add('show');
+        if (this.state.input) suggestions.classList.add('show');
 
-        const html = this.state.suggestions.map(place => {
+        const htmlSuggestions = this.state.suggestions.map(place => {
             const regex = new RegExp(this.state.input, 'gi');
             const { latitude, longitude } = place;
             const cityName = place.city.replace(regex, `<span class="cityhighlight">${this.state.input.toLowerCase()}</span>`);
@@ -53,14 +54,14 @@ export default class WeatherSearch extends React.Component {
                 </li>
             `
         }).join('');
-        suggestions.innerHTML = html;
+        suggestions.innerHTML = htmlSuggestions;
 
-        const context = this; // handle clicking a city suggestion
+        const context = this; // event handler
         $('.citysuggestionitem').on('click', function() {
             const coordinates = $(this).find($('.citycoords')).text();
+            $('.citysuggestions').removeClass('show');
+            context.setState({ input: "" });
             context.props.getWeatherClick(coordinates);
-            // suggestions.classList.remove('show');
-            // context.setState({ input: " "});
         });
         // hide suggestions when clicking elsewhere
         const hideSuggestions = () => suggestions.classList.remove('show');
